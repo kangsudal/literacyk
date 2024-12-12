@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class SigninView extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
-  final String? email;
-  final String? password;
+  late String? email;
+  late String? password;
   SigninView({super.key, this.email, this.password});
 
   @override
@@ -43,21 +43,48 @@ class SigninView extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height:16),
+              SizedBox(height: 16),
               TextFormField(
                 decoration: InputDecoration(
                   labelText: '이메일',
                   hintText: 'example@kangsudal.com',
                   border: OutlineInputBorder(),
                 ),
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return '이메일을 입력하세요';
+                  }
+                  if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                    return '올바른 이메일 형식을 입력하세요';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  email = value;
+                },
               ),
-              SizedBox(height:8),
+              SizedBox(height: 8),
               TextFormField(
                 decoration: InputDecoration(
                   labelText: '비밀번호',
                   border: OutlineInputBorder(),
                 ),
                 obscureText: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return '비밀번호를 입력하세요';
+                  }
+                  if (!RegExp(
+                          r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$')
+                      .hasMatch(value)) {
+                    return '영문자, 숫자, 특수문자를 포함하여 최소 8자 이상이어야 합니다';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  password = value;
+                },
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -71,7 +98,13 @@ class SigninView extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (formKey.currentState?.validate() ?? false) {
+                      formKey.currentState?.save();
+                      debugPrint(email);
+                      debugPrint(password);
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(vertical: 15),
                     backgroundColor: Theme.of(context).colorScheme.primary,
