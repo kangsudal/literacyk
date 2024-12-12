@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:literacyk/config/route_names.dart';
 
-class SigninView extends StatefulWidget {
-  const SigninView({super.key});
+class SignupView extends StatefulWidget {
+  SignupView({super.key});
 
   @override
-  State<SigninView> createState() => _SigninViewState();
+  State<SignupView> createState() => _SignupViewState();
 }
 
-class _SigninViewState extends State<SigninView> {
-  String? email;
-
-  String? password;
-
+class _SignupViewState extends State<SignupView> {
+  late String? email;
+  late String? password;
   final formKey = GlobalKey<FormState>();
+
+  final TextEditingController passwordController = TextEditingController();
+
+  late String? name;
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +58,22 @@ class _SigninViewState extends State<SigninView> {
               SizedBox(height: 16),
               TextFormField(
                 decoration: InputDecoration(
+                  labelText: '이름',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return '이름을 입력하세요';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  name = value;
+                },
+              ),
+              SizedBox(height: 8),
+              TextFormField(
+                decoration: InputDecoration(
                   labelText: '이메일',
                   hintText: 'example@kangsudal.com',
                   border: OutlineInputBorder(),
@@ -78,6 +96,8 @@ class _SigninViewState extends State<SigninView> {
               TextFormField(
                 decoration: InputDecoration(
                   labelText: '비밀번호',
+                  hintText: '비밀번호를 입력해주세요',
+                  helperText: '*영문자, 숫자, 특수문자를 포함하여 최소 8자 이상이어야 합니다.',
                   border: OutlineInputBorder(),
                 ),
                 obscureText: true,
@@ -96,15 +116,27 @@ class _SigninViewState extends State<SigninView> {
                   password = value;
                 },
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    onPressed: () {},
-                    child: Text('비밀번호 재설정하기'),
-                  )
-                ],
+              SizedBox(height: 8),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: '비밀번호 확인',
+                  hintText: '비밀번호를 다시 입력해주세요',
+                  border: OutlineInputBorder(),
+                ),
+                obscureText: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return '비밀번호를 다시한번 입력하세요';
+                  } else if (value != passwordController.text) {
+                    return '비밀번호가 일치하지 않습니다.';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  password = value;
+                },
               ),
+              SizedBox(height: 16),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -123,7 +155,7 @@ class _SigninViewState extends State<SigninView> {
                     ),
                   ),
                   child: Text(
-                    '로그인',
+                    '가입하기',
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           color: Theme.of(context).colorScheme.onPrimary,
                         ),
@@ -133,16 +165,16 @@ class _SigninViewState extends State<SigninView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('계정이 없으신가요? '),
+                  Text('계정이 이미 있으신가요? '),
                   TextButton(
                     style: ButtonStyle(
                       padding:
                           WidgetStateProperty.all<EdgeInsets>(EdgeInsets.zero),
                     ),
                     onPressed: () {
-                      context.goNamed(RouteNames.signup);
+                      context.goNamed(RouteNames.signin);
                     },
-                    child: Text(' 회원가입 하기'),
+                    child: Text(' 로그인 하기'),
                   ),
                 ],
               ),

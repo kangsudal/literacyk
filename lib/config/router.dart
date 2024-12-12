@@ -4,6 +4,7 @@ import 'package:literacyk/config/route_names.dart';
 import 'package:literacyk/view/firebase_error_view/firebase_error_view.dart';
 import 'package:literacyk/view/home_view/home_view.dart';
 import 'package:literacyk/view/signin_view/signin_view.dart';
+import 'package:literacyk/view/signup_view/signup_view.dart';
 import 'package:literacyk/view/splash_view/splash_view.dart';
 
 final GoRouter myRouter = GoRouter(
@@ -31,13 +32,13 @@ final GoRouter myRouter = GoRouter(
         return SigninView();
       },
     ),
-  //   GoRoute(
-  //     path: '/signup',
-  //     name: RouteNames.signup,
-  //     builder: (context, state) {
-  //       return SignupView();
-  //     },
-  //   ),
+    GoRoute(
+      path: '/signup',
+      name: RouteNames.signup,
+      builder: (context, state) {
+        return SignupView();
+      },
+    ),
   //   GoRoute(
   //     path: '/resetPassword',
   //     name: RouteNames.resetPassword,
