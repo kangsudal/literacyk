@@ -10,6 +10,7 @@ import 'package:literacyk/view/home_view/home_view.dart';
 import 'package:literacyk/view/signin_view/signin_view.dart';
 import 'package:literacyk/view/signup_view/signup_view.dart';
 import 'package:literacyk/view/splash_view/splash_view.dart';
+import 'package:literacyk/view/verify_email_view/verify_email_view.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'router.g.dart';
@@ -45,9 +46,9 @@ GoRouter router(Ref ref) {
 
       // 여기서부턴 uthenticated == true로 로그인된 상태.
       // 이메일 검증을 한 사용자만 서비스를 사용할 수 있도록 함
-      // if (!fbAuth.currentUser!.emailVerified) {
-      //   return '/verifyEmail';
-      // }
+      if (!fbAuth.currentUser!.emailVerified) {
+        return '/verifyEmail';
+      }
 
       final verifyingEmail = state.matchedLocation == '/verifyEmail';
       final splashing = state.matchedLocation == '/splash';
@@ -92,13 +93,13 @@ GoRouter router(Ref ref) {
       //       return ResetPsswordView();
       //     },
       //   ),
-      //   GoRoute(
-      //     path: '/verifyEmail',
-      //     name: RouteNames.verifyEmail,
-      //     builder: (context, state) {
-      //       return VerifyEmailView();
-      //     },
-      //   ),
+      GoRoute(
+        path: '/verifyEmail',
+        name: RouteNames.verifyEmail,
+        builder: (context, state) {
+          return VerifyEmailView();
+        },
+      ),
       GoRoute(
         path: '/home',
         name: RouteNames.home,

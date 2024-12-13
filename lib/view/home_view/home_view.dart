@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:literacyk/models/custom_error.dart';
 import 'package:literacyk/repositories/auth_repository_provider.dart';
+import 'package:literacyk/view/home_view/home_viewmodel.dart';
 
 class HomeView extends ConsumerWidget {
   const HomeView({super.key});
@@ -16,7 +17,7 @@ class HomeView extends ConsumerWidget {
           IconButton(
             onPressed: () async {
               try {
-                await ref.read(authRepositoryProvider).signout();
+                await ref.read(homeViewmodelProvider.notifier).signout();
               } on CustomError catch (e) {
                 if (!context.mounted) return;
                 showDialog(
