@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:literacyk/config/route_names.dart';
+import 'package:literacyk/models/custom_error.dart';
+import 'package:literacyk/view/signin_view/signin_viewmodel.dart';
 
-class SigninView extends StatefulWidget {
+class SigninView extends ConsumerStatefulWidget {
   const SigninView({super.key});
 
   @override
-  State<SigninView> createState() => _SigninViewState();
+  ConsumerState<SigninView> createState() => _SigninViewState();
 }
 
-class _SigninViewState extends State<SigninView> {
+class _SigninViewState extends ConsumerState<SigninView> {
   String? email;
 
   String? password;
@@ -100,7 +103,7 @@ class _SigninViewState extends State<SigninView> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () async {},
                     child: Text('비밀번호 재설정하기'),
                   )
                 ],
@@ -108,11 +111,19 @@ class _SigninViewState extends State<SigninView> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
-                    if (formKey.currentState?.validate() ?? false) {
-                      formKey.currentState?.save();
-                      debugPrint(email);
-                      debugPrint(password);
+                  onPressed: () async {
+                    final signinViewmodel =
+                        ref.read(signinViewmodelProvider.notifier);
+                    final form = formKey.currentState;
+                    if (form == null || !form.validate()) return;
+                    form.save();
+                    try {
+                      await signinViewmodel.signin(
+                          email: email!, password: password!);
+                    } on CustomError catch (e) {
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(content: Text(e.message)));
                     }
                   },
                   style: ElevatedButton.styleFrom(

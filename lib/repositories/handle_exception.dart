@@ -16,7 +16,7 @@ CustomError handleException(e) {
         break;
       case 'operation-not-allowed':
         errorMessage =
-            '현재 이메일/비밀번호 계정이 비활성화되어 있습니다. Firebase Console에서 활성화해주세요.';
+        '현재 이메일/비밀번호 계정이 비활성화되어 있습니다. Firebase Console에서 활성화해주세요.';
         break;
       case 'weak-password':
         errorMessage = '비밀번호가 너무 약합니다. 더 강력한 비밀번호를 입력해주세요. (최소 6자 이상 권장)';
@@ -30,6 +30,15 @@ CustomError handleException(e) {
       case 'network-request-failed':
         errorMessage = '네트워크 오류가 발생했습니다. 인터넷 연결을 확인해주세요.';
         break;
+      case 'user-disabled':
+        errorMessage = '해당 이메일의 사용자가 비활성화되었습니다.';
+      case 'user-not-found':
+        errorMessage = '해당 이메일로 등록된 사용자를 찾을 수 없습니다.';
+      case 'wrong-password':
+        errorMessage = '비밀번호가 잘못되었습니다. 다시 확인해주세요.';
+      case 'invalid-credential':
+      case 'INVALID_LOGIN_CREDENTIALS':
+        errorMessage = '유효하지 않은 로그인 정보입니다. 비밀번호와 이메일을 확인해주세요.';
       default:
         errorMessage = e.message ?? '알 수 없는 오류가 발생했습니다.';
     }
