@@ -99,22 +99,22 @@ GoRouter router(Ref ref) {
       //       return VerifyEmailView();
       //     },
       //   ),
-      //   GoRoute(
-      //     path: '/home',
-      //     name: RouteNames.home,
-      //     builder: (context, state) {
-      //       return HomeView();
-      //     },
-      //     routes: [
-      //       GoRoute(
-      //         path: 'changePassword',
-      //         name:RouteNames.changePassword,
-      //         builder: (context,state){
-      //           return ChangePasswordView();
-      //         }
-      //       ),
-      //     ],
-      //   ),
+      GoRoute(
+        path: '/home',
+        name: RouteNames.home,
+        builder: (context, state) {
+          return HomeView();
+        },
+        routes: [
+          // GoRoute(
+          //   path: 'changePassword',
+          //   name:RouteNames.changePassword,
+          //   builder: (context,state){
+          //     return ChangePasswordView();
+          //   }
+          // ),
+        ],
+      ),
       //
     ],
     // errorBuilder: (context, state){

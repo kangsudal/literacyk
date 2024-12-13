@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:literacyk/config/route_names.dart';
+import 'package:literacyk/models/custom_error.dart';
+import 'package:literacyk/view/signup_view/signup_viewmodel.dart';
 
-class SignupView extends StatefulWidget {
+class SignupView extends ConsumerStatefulWidget {
   SignupView({super.key});
 
   @override
-  State<SignupView> createState() => _SignupViewState();
+  ConsumerState<SignupView> createState() => _SignupViewState();
 }
 
-class _SignupViewState extends State<SignupView> {
+class _SignupViewState extends ConsumerState<SignupView> {
   late String? email;
   late String? password;
   final formKey = GlobalKey<FormState>();
@@ -94,6 +97,7 @@ class _SignupViewState extends State<SignupView> {
               ),
               SizedBox(height: 8),
               TextFormField(
+                controller: passwordController,
                 decoration: InputDecoration(
                   labelText: '비밀번호',
                   hintText: '비밀번호를 입력해주세요',
@@ -140,11 +144,19 @@ class _SignupViewState extends State<SignupView> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
-                    if (formKey.currentState?.validate() ?? false) {
-                      formKey.currentState?.save();
-                      debugPrint(email);
-                      debugPrint(password);
+                  onPressed: () async {
+                    final signupViewmodel =
+                        ref.read(signupViewmodelProvider.notifier);
+                    final form = formKey.currentState;
+                    if (form == null || !form.validate()) return;
+                    form.save();
+                    try {
+                      await signupViewmodel.signup(
+                          name: name!, email: email!, password: password!);
+                    } on CustomError catch (e) {
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(content: Text(e.message)));
                     }
                   },
                   style: ElevatedButton.styleFrom(

@@ -6,9 +6,12 @@ part of 'router.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$routerHash() => r'5cfc41e7989b6d320690ba167a6add406de563c3';
+String _$routerHash() => r'10b5367b357c7c4f25cf84258cb365b6da4f8cd4';
 
-/// See also [router].
+/// 인증상태(authStateStreamProvider의 state)가 변할때마다 routerProvider가 rebuild됨
+/// redirect 콜백이 실행됨
+///
+/// Copied from [router].
 @ProviderFor(router)
 final routerProvider = AutoDisposeProvider<GoRouter>.internal(
   router,
