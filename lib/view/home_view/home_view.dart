@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:literacyk/models/custom_error.dart';
-import 'package:literacyk/repositories/auth_repository_provider.dart';
-import 'package:literacyk/view/home_view/home_viewmodel.dart';
+import 'package:literacyk/view/user_profile_view/user_profile_view_in_home_view.dart';
 
 class HomeView extends ConsumerWidget {
   const HomeView({super.key});
@@ -12,35 +9,13 @@ class HomeView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () async {
-              try {
-                await ref.read(homeViewmodelProvider.notifier).signout();
-              } on CustomError catch (e) {
-                if (!context.mounted) return;
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return CupertinoAlertDialog(
-                      content: Text(e.message),
-                      actions: [
-                        CupertinoDialogAction(
-                          child: Text('확인'),
-                          onPressed: () {
-                            context.pop();
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              }
-            },
-            icon: Icon(Icons.login_outlined),
-          ),
-        ],
+      body: Padding(
+        padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top),
+        child: Column(
+          children: [
+            UserProfileViewInHomeView(),
+          ],
+        ),
       ),
     );
   }
