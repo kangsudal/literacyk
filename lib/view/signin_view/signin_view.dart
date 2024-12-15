@@ -103,7 +103,14 @@ class _SigninViewState extends ConsumerState<SigninView> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    onPressed: () async {},
+                    onPressed: () async {
+                      try{
+                        context.goNamed(RouteNames.resetPassword);
+                      }catch(e){
+                        debugPrint('tap');
+
+                      }
+                    },
                     child: Text('비밀번호 재설정하기'),
                   )
                 ],

@@ -7,6 +7,7 @@ import 'package:literacyk/constants/firebase_constants.dart';
 import 'package:literacyk/repositories/auth_repository_provider.dart';
 import 'package:literacyk/view/firebase_error_view/firebase_error_view.dart';
 import 'package:literacyk/view/home_view/home_view.dart';
+import 'package:literacyk/view/reset_password/reset_password_view.dart';
 import 'package:literacyk/view/signin_view/signin_view.dart';
 import 'package:literacyk/view/signup_view/signup_view.dart';
 import 'package:literacyk/view/splash_view/splash_view.dart';
@@ -37,7 +38,7 @@ GoRouter router(Ref ref) {
       // 로그인 중인 상태
       final authenticating = (state.matchedLocation == '/signin') ||
           (state.matchedLocation == '/signup') ||
-          (state.matchedLocation == 'resetPassword');
+          (state.matchedLocation == '/resetPassword');
 
       // 로그인 상태가 아닌 상태에서 로그인 진행중화면으로 가는건 Ok, 다른 화면으론 못가게 signin으로 redirect
       if (authenticated == false) {
@@ -86,13 +87,13 @@ GoRouter router(Ref ref) {
           return SignupView();
         },
       ),
-      //   GoRoute(
-      //     path: '/resetPassword',
-      //     name: RouteNames.resetPassword,
-      //     builder: (context, state) {
-      //       return ResetPsswordView();
-      //     },
-      //   ),
+      GoRoute(
+        path: '/resetPassword',
+        name: RouteNames.resetPassword,
+        builder: (context, state) {
+          return ResetPasswordView();
+        },
+      ),
       GoRoute(
         path: '/verifyEmail',
         name: RouteNames.verifyEmail,
