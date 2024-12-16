@@ -29,8 +29,15 @@ class Post with _$Post {
       id: postDoc.id,
       title: postData['title'] ?? '',
       contents: postData['contents'] ?? '',
-      createdAt: postData['createdAt']?.toDate() ?? DateTime.now(),
-      updatedAt: postData['updatedAt']?.toDate() ?? DateTime.now(),
+      imgUrls: List<String>.from(postData['imgUrls'] ?? []),
+      createdAt: (postData['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      updatedAt: (postData['updatedAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      createdBy: postData['createdBy'] ?? '',
+      clapRecords: (postData['clapRecords'] as List<dynamic>)
+          .map((e) => ClapRecord.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      bookmarkedBy: List<String>.from(postData['bookmarkedBy'] ?? []),
+      viewedBy: List<String>.from(postData['viewedBy'] ?? []),
     );
   }
 }
