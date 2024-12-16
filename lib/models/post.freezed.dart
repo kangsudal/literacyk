@@ -216,7 +216,7 @@ class __$$PostImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$PostImpl with DiagnosticableTreeMixin implements _Post {
+class _$PostImpl extends _Post with DiagnosticableTreeMixin {
   const _$PostImpl(
       {this.id = '',
       this.title = '',
@@ -231,7 +231,8 @@ class _$PostImpl with DiagnosticableTreeMixin implements _Post {
       : _imgUrls = imgUrls,
         _clapRecords = clapRecords,
         _bookmarkedBy = bookmarkedBy,
-        _viewedBy = viewedBy;
+        _viewedBy = viewedBy,
+        super._();
 
   @override
   @JsonKey()
@@ -359,7 +360,7 @@ class _$PostImpl with DiagnosticableTreeMixin implements _Post {
       __$$PostImplCopyWithImpl<_$PostImpl>(this, _$identity);
 }
 
-abstract class _Post implements Post {
+abstract class _Post extends Post {
   const factory _Post(
       {final String id,
       final String title,
@@ -371,6 +372,7 @@ abstract class _Post implements Post {
       final List<ClapRecord> clapRecords,
       final List<String> bookmarkedBy,
       final List<String> viewedBy}) = _$PostImpl;
+  const _Post._() : super._();
 
   @override
   String get id;

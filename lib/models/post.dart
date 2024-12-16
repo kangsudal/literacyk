@@ -9,6 +9,7 @@ part 'post.freezed.dart';
 
 @freezed
 class Post with _$Post {
+  const Post._();
   const factory Post({
     @Default('') String id,
     @Default('') String title,
@@ -39,5 +40,19 @@ class Post with _$Post {
       bookmarkedBy: List<String>.from(postData['bookmarkedBy'] ?? []),
       viewedBy: List<String>.from(postData['viewedBy'] ?? []),
     );
+  }
+
+  Map<String, dynamic> toDoc() {
+    return {
+      'title': title,
+      'contents': contents,
+      'imgUrls': imgUrls,
+      'createdAt': Timestamp.fromDate(createdAt),
+      'updatedAt': Timestamp.fromDate(updatedAt),
+      'createdBy': createdBy,
+      'clapRecords': clapRecords.map((e) => e.toJson()).toList(),
+      'bookmarkedBy': bookmarkedBy,
+      'viewedBy': viewedBy,
+    };
   }
 }

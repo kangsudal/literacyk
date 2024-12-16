@@ -4,6 +4,17 @@ import 'package:literacyk/models/post.dart';
 import 'package:literacyk/repositories/handle_exception.dart';
 
 class PostRepository {
+  Future<List<Post>> fetchPosts() async {
+    try{
+      final snapshot = await postCollection.get();
+      final docs = snapshot.docs;
+      final result = docs.map((doc)=>Post.fromDoc(doc)).toList();
+      return result;
+    }catch(e){
+      throw handleException(e);
+    }
+  }
+
   Future<void> createPost(Post post) async {
     Map<String, dynamic> createData = {
       'id': post.id,
@@ -20,7 +31,7 @@ class PostRepository {
     try {
       await postCollection.add(createData);
     } catch (e) {
-      handleException(e);
+      throw handleException(e);
     }
   }
 
