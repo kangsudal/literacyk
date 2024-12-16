@@ -99,5 +99,11 @@ HomeView는 하위 View를 조합하는 역할만 하도록 만들었다.
 #### MVVM 패턴
 - Model: Firebase Authentication 및 Firestore 데이터
 - View: 로그인 화면, 게시판 화면
-- ViewModel: AuthViewModel, UserProfileViewModel, BoardViewModel
+- ViewModel:
+   - `BoardViewModel`: 게시판 기능 관리 (CRUD)  
+   - `SigninViewModel`: 로그인 관리  
+   - `SignupViewModel`: 회원가입 관리  
+   - `ResetPasswordViewModel`: 비밀번호 재설정 관리  
+   - `UserProfileViewModel`: 사용자 프로필 상태 관리  
+   - `VerifyEmailViewModel`: 이메일 인증 상태 관리  
 
