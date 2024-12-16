@@ -16,20 +16,8 @@ class PostRepository {
   }
 
   Future<void> createPost(Post post) async {
-    Map<String, dynamic> createData = {
-      'id': post.id,
-      'title': post.title,
-      'contents': post.contents,
-      'imgUrls': post.imgUrls,
-      'createdAt': post.createdAt,
-      'updatedAt': post.updatedAt,
-      'createdBy': post.createdBy,
-      'clapRecords': post.clapRecords,
-      'bookmarkedBy': post.bookmarkedBy,
-      'viewedBy': post.viewedBy,
-    };
     try {
-      await postCollection.add(createData);
+      await postCollection.add(post.toMap());
     } catch (e) {
       throw handleException(e);
     }

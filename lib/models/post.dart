@@ -42,7 +42,7 @@ class Post with _$Post {
     );
   }
 
-  Map<String, dynamic> toDoc() {
+  Map<String, dynamic> toMap() {
     return {
       'title': title,
       'contents': contents,
