@@ -8,7 +8,9 @@ class AppUserRepository {
     try {
       final DocumentSnapshot appUserDoc = await usersCollection.doc(uid).get();
       if (appUserDoc.exists) {
-        final appUser = AppUser.fromDoc(appUserDoc);
+        Map<String, dynamic> dataMap =
+            appUserDoc.data() as Map<String, dynamic>;
+        final appUser = AppUser.fromMap(dataMap, id: appUserDoc.id);
         return appUser;
       }
       throw 'User not found';

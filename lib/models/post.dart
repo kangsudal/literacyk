@@ -9,7 +9,7 @@ part 'post.freezed.dart';
 
 @freezed
 class Post with _$Post {
-  const Post._();
+  const Post._(); // custom 메서드 (
   const factory Post({
     @Default('') String id,
     @Default('') String title,
@@ -23,22 +23,21 @@ class Post with _$Post {
     @Default([]) List<String> viewedBy, //이 레시피 조회한 유저 UID 리스트
   }) = _Post;
 
-  factory Post.fromDoc(DocumentSnapshot postDoc) {
-    final postData = postDoc.data() as Map<String, dynamic>;
-
+  factory Post.fromMap(Map<String, dynamic> map, {required String id}) {
     return Post(
-      id: postDoc.id,
-      title: postData['title'] ?? '',
-      contents: postData['contents'] ?? '',
-      imgUrls: List<String>.from(postData['imgUrls'] ?? []),
-      createdAt: (postData['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
-      updatedAt: (postData['updatedAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
-      createdBy: postData['createdBy'] ?? '',
-      clapRecords: (postData['clapRecords'] as List<dynamic>)
-          .map((e) => ClapRecord.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      bookmarkedBy: List<String>.from(postData['bookmarkedBy'] ?? []),
-      viewedBy: List<String>.from(postData['viewedBy'] ?? []),
+      id: id,
+      title: map['title'] ?? '',
+      contents: map['contents'] ?? '',
+      imgUrls: List<String>.from(map['imgUrls'] ?? []),
+      createdAt: (map['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      updatedAt: (map['updatedAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      createdBy: map['createdBy'] ?? '',
+      clapRecords: (map['clapRecords'] as List<dynamic>?)
+              ?.map((e) => ClapRecord.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      bookmarkedBy: List<String>.from(map['bookmarkedBy'] ?? []),
+      viewedBy: List<String>.from(map['viewedBy'] ?? []),
     );
   }
 

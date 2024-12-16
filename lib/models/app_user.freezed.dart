@@ -116,8 +116,9 @@ class __$$AppUserImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AppUserImpl with DiagnosticableTreeMixin implements _AppUser {
-  const _$AppUserImpl({this.id = '', this.name = '', this.email = ''});
+class _$AppUserImpl extends _AppUser with DiagnosticableTreeMixin {
+  const _$AppUserImpl({this.id = '', this.name = '', this.email = ''})
+      : super._();
 
   @override
   @JsonKey()
@@ -166,9 +167,10 @@ class _$AppUserImpl with DiagnosticableTreeMixin implements _AppUser {
       __$$AppUserImplCopyWithImpl<_$AppUserImpl>(this, _$identity);
 }
 
-abstract class _AppUser implements AppUser {
+abstract class _AppUser extends AppUser {
   const factory _AppUser(
       {final String id, final String name, final String email}) = _$AppUserImpl;
+  const _AppUser._() : super._();
 
   @override
   String get id;
