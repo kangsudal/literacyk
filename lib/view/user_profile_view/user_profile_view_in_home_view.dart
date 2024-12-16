@@ -14,14 +14,11 @@ class UserProfileViewInHomeView extends ConsumerWidget {
     final uid = fbAuth.currentUser!.uid; // 인증이 되어야만 접근할 수 있는 페이지기때문에 !
     final userProfileViewState = ref.watch(userProfileViewmodelProvider(uid));
     return ListTile(
-      leading: CircleAvatar(
-        radius: 30,
-      ),
       title: userProfileViewState.when(
         data: (appUser) => Text('어서오세요 ${appUser.name}님'),
         error: (error, _) {
           CustomError e = error as CustomError;
-          Text(e.message);
+          return Text(e.message);
         },
         loading: () => CircularProgressIndicator(),
       ),

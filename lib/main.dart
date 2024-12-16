@@ -28,10 +28,16 @@ class MyApp extends ConsumerWidget {
       title: 'LiteracyK',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Color(0xFFd84848),
-          primary: Color(0xFFd84848),
+          seedColor: Color(0xffea4a44),
+          primary: Color(0xffea4a44),
+          brightness: Brightness.light,
         ),
         useMaterial3: true,
+        scaffoldBackgroundColor: Colors.white,
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Color(0xffea4a44), // FloatingActionButton 배경색
+          foregroundColor: Colors.white, // FloatingActionButton 아이콘 색상
+        ),
       ),
       routerConfig: router,
     );
