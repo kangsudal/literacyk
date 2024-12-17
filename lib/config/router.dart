@@ -103,19 +103,18 @@ GoRouter router(Ref ref) {
         },
       ),
       GoRoute(
+          path: '/write',
+          name: RouteNames.write,
+          builder: (context, state) {
+            return WriteView();
+          }),
+      GoRoute(
         path: '/home',
         name: RouteNames.home,
         builder: (context, state) {
           return HomeView();
         },
         routes: [
-          GoRoute(
-            path: 'write',
-            name:RouteNames.write,
-            builder: (context,state){
-              return WriteView();
-            }
-          ),
           // GoRoute(
           //   path: 'changePassword',
           //   name:RouteNames.changePassword,
