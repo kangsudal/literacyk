@@ -22,7 +22,20 @@ class ReadView extends ConsumerWidget {
         if (post == null) {
           return Scaffold(
             body: Center(
-              child: Text('게시물이 존재하지 않습니다.'),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('게시물이 존재하지 않습니다.'),
+                  OutlinedButton(
+                    onPressed: () {
+                      context.goNamed(
+                        RouteNames.home,
+                      );
+                    },
+                    child: Text('Home'),
+                  ),
+                ],
+              ),
             ),
           );
         }
