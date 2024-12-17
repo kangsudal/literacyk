@@ -5,7 +5,7 @@ import 'package:literacyk/repositories/handle_exception.dart';
 class PostRepository {
   Future<List<Post>> fetchPosts() async {
     try {
-      final snapshot = await postCollection.get();
+      final snapshot = await postCollection.orderBy('createdAt', descending: true).get();
       final docs = snapshot.docs;
       List<Post> result = docs
           .map((doc) => Post.fromMap(
