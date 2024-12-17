@@ -1,4 +1,8 @@
+import 'package:literacyk/constants/firebase_constants.dart';
+import 'package:literacyk/models/app_user.dart';
 import 'package:literacyk/models/post.dart';
+import 'package:literacyk/repositories/app_user_repository.dart';
+import 'package:literacyk/repositories/app_user_repository_provider.dart';
 import 'package:literacyk/repositories/post_repository.dart';
 import 'package:literacyk/repositories/post_repository_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -8,10 +12,11 @@ part 'write_viewmodel.g.dart';
 @riverpod
 class WriteViewmodel extends _$WriteViewmodel {
   late PostRepository postRepository;
+  late AppUserRepository appUserRepository;
   @override
   FutureOr<Post?> build(String? postId) async {
     postRepository = ref.watch(postRepositoryProvider);
-
+    appUserRepository = ref.watch(appUserRepositoryProvider);
     // postId가 있으면 수정모드
     if(postId != null) {
       // 기존 게시물 불러옴
@@ -43,15 +48,19 @@ class WriteViewmodel extends _$WriteViewmodel {
           id: postId,
           title: title,
           contents: contents,
+          createdBy: existingPost.createdBy,
         );
         await postRepository.updatePost(post);
       } else {
+        final currentUid = fbAuth.currentUser!.uid;
+        AppUser currentAppUser = await appUserRepository.getProfile(uid: currentUid);
         DateTime currentDateTime = DateTime.now();
         post = Post(
           createdAt: currentDateTime,
           updatedAt: currentDateTime,
           title: title,
           contents: contents,
+          createdBy: currentAppUser.id,
         );
         await postRepository.createPost(post);
       }
