@@ -11,6 +11,6 @@ class BoardViewModel extends _$BoardViewModel {
   @override
   FutureOr<List<Post>> build() async {
     postRepository = ref.watch(postRepositoryProvider);
-    return postRepository.fetchPosts();
+    return await postRepository.fetchPosts();
   }
 }

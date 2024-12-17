@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:literacyk/config/route_names.dart';
 import 'package:literacyk/models/custom_error.dart';
 import 'package:literacyk/view/write_view/write_viewmodel.dart';
 
@@ -13,6 +15,8 @@ class WriteView extends ConsumerStatefulWidget {
 
 class _WriteViewState extends ConsumerState<WriteView> {
   final formKey = GlobalKey<FormState>();
+  String? title;
+  String? contents;
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +33,20 @@ class _WriteViewState extends ConsumerState<WriteView> {
           centerTitle: true,
           actions: [
             TextButton(
-              onPressed: () {
+              onPressed: () async {
+                final writeViewmodel = ref.read(writeViewmodelProvider(widget.postId).notifier);
                 final form = formKey.currentState;
                 if (form == null || !form.validate()) return;
                 form.save();
+                try{
+                  await writeViewmodel.savePost(title: title!, contents: contents!, isEdit: isEdit);
+                  context.goNamed(RouteNames.home);
+                }
+                on CustomError catch (e) {
+                  if(!context.mounted) return;
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text(e.message)));
+                }
               },
               child: Text('Post'),
             ),
@@ -56,6 +70,9 @@ class _WriteViewState extends ConsumerState<WriteView> {
                         validator: (title) {
                           return validateTitle(title);
                         },
+                        onSaved: (title){
+                          this.title = title;
+                        },
                       ),
                       SizedBox(height:30),
                       TextFormField(
@@ -69,6 +86,9 @@ class _WriteViewState extends ConsumerState<WriteView> {
                         initialValue: post?.contents,
                         validator: (contents) {
                           return validateContents(contents);
+                        },
+                        onSaved: (contents){
+                          this.contents = contents;
                         },
                       ),
                     ],

@@ -42,6 +42,7 @@ class _BoardViewInHomeViewState extends ConsumerState<BoardViewInHomeView> {
           );
         }
         return ListView.builder(
+          itemCount: posts.length,
           itemBuilder: (context, index) {
             Post post = posts[index];
             return ListTile(
