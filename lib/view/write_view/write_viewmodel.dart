@@ -20,17 +20,20 @@ class WriteViewmodel extends _$WriteViewmodel {
     required bool isEdit,
     String? postId,
   }) async {
-    state = const AsyncLoading();
-    try {
+    state = await AsyncValue.guard(() async {
       Post post;
       if (isEdit) {
         if (postId == null) {
-          throw Exception('postId가 전달되지 않았습니다.');
+          throw ArgumentError(
+              'postId가 전달되지 않았습니다. isEdit이 true일 경우 postId는 필수입니다.');
         }
-        DateTime currentDateTime = DateTime.now();
+        Post? existingPost = await postRepository.readPost(postId);
+        if (existingPost == null) {
+          throw Exception('해당 postId에 해당하는 Post를 찾을 수 없습니다.');
+        }
         post = Post(
-          createdAt: currentDateTime,
-          updatedAt: currentDateTime,
+          createdAt: existingPost.createdAt,
+          updatedAt: DateTime.now(),
           id: postId,
           title: title,
           contents: contents,
@@ -46,9 +49,7 @@ class WriteViewmodel extends _$WriteViewmodel {
         );
         await postRepository.createPost(post);
       }
-      state = AsyncData(post);
-    } catch (e) {
-      state = AsyncError(e, StackTrace.current);
-    }
+      return post; //AsyncValue.guard의 반환값이 AsyncData(post)로 설정됨
+    });
   }
 }
