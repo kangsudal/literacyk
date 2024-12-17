@@ -6,7 +6,7 @@ part of 'board_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$boardViewModelHash() => r'f79385503a616d3b3fc0fb59d53f58f0c2ec256e';
+String _$boardViewModelHash() => r'ef4ed930a414c72b77b2fccc2a2f613089ee0ffd';
 
 /// See also [BoardViewModel].
 @ProviderFor(BoardViewModel)

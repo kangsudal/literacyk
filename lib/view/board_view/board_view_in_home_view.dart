@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:literacyk/config/route_names.dart';
 import 'package:literacyk/models/custom_error.dart';
 import 'package:literacyk/models/post.dart';
 import 'package:literacyk/view/board_view/board_view_model.dart';
@@ -42,11 +44,17 @@ class _BoardViewInHomeViewState extends ConsumerState<BoardViewInHomeView> {
           );
         }
         return ListView.builder(
+          // padding: EdgeInsets.zero,
           itemCount: posts.length,
           itemBuilder: (context, index) {
             Post post = posts[index];
             return ListTile(
               title: Text(post.title),
+              onTap: () {
+                context.goNamed(RouteNames.read, pathParameters: {
+                  'postId': post.id,
+                });
+              },
             );
           },
         );

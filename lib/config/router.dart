@@ -7,6 +7,7 @@ import 'package:literacyk/constants/firebase_constants.dart';
 import 'package:literacyk/repositories/auth_repository_provider.dart';
 import 'package:literacyk/view/firebase_error_view/firebase_error_view.dart';
 import 'package:literacyk/view/home_view/home_view.dart';
+import 'package:literacyk/view/read_view/read_view.dart';
 import 'package:literacyk/view/reset_password/reset_password_view.dart';
 import 'package:literacyk/view/signin_view/signin_view.dart';
 import 'package:literacyk/view/signup_view/signup_view.dart';
@@ -115,6 +116,14 @@ GoRouter router(Ref ref) {
           return HomeView();
         },
         routes: [
+          GoRoute(
+            path: 'read/:postId',
+            name:RouteNames.read,
+            builder: (context,state){
+              String postId=state.pathParameters['postId']!;
+              return ReadView(postId: postId);
+            }
+          ),
           // GoRoute(
           //   path: 'changePassword',
           //   name:RouteNames.changePassword,

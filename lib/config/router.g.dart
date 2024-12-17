@@ -6,7 +6,7 @@ part of 'router.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$routerHash() => r'28b044e0960436bc2dfc55ef148288d7d38ead2a';
+String _$routerHash() => r'4681b0b13ca87a2f4d2437952cc112ce276ce52b';
 
 /// 인증상태(authStateStreamProvider의 state)가 변할때마다 routerProvider가 rebuild됨
 /// redirect 콜백이 실행됨
