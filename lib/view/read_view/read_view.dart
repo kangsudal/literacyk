@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:literacyk/config/route_names.dart';
 import 'package:literacyk/models/custom_error.dart';
 import 'package:literacyk/view/read_view/read_viewmodel.dart';
+import 'package:literacyk/view/user_profile_view/user_profile_viewmodel.dart';
 
 class ReadView extends ConsumerWidget {
   final String postId;
@@ -22,6 +24,8 @@ class ReadView extends ConsumerWidget {
             ),
           );
         }
+        final userNameState =
+            ref.watch(userNameProvider(post.createdBy)); // 작성자 이름
         return Scaffold(
           appBar: AppBar(
             title: Text(post.title),
@@ -34,7 +38,34 @@ class ReadView extends ConsumerWidget {
           ),
           body: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                userNameState.when(
+                  data: (name) => InkWell(
+                    // onTap: () {
+                    //   // 작성자 프로필로 이동
+                    //   context.goNamed('profile',
+                    //       pathParameters: {'uid': post.createdBy});
+                    // },
+                    child: Row(
+                      children: [
+                        Text(
+                          'by. ',
+                        ),
+                        Text(
+                          name,
+                          style: TextStyle(
+                              decoration: TextDecoration.underline),
+                        ),
+                      ],
+                    ),
+                  ),
+                  loading: () => CircularProgressIndicator(),
+                  error: (_, __) => Text('작성자 정보를 불러올 수 없습니다.'),
+                ),
+                Text('작성일: ${DateFormat('yyyy-mm-dd hh:mm a').format(post.createdAt)}'),
+                Text('수정일: ${DateFormat('yyyy-mm-dd hh:mm a').format(post.updatedAt)}'),
+                Divider(),
                 Text(post.contents),
               ],
             ),

@@ -29,3 +29,10 @@ class UserProfileViewmodel extends _$UserProfileViewmodel {
     ref.invalidate(authRepositoryProvider);
   }
 }
+
+// 작성자의 UID -> 이름 변환 Provider
+final userNameProvider = FutureProvider.family<String, String>((ref, uid) async {
+  final appUserRepository = ref.read(appUserRepositoryProvider);
+  final appUser = await appUserRepository.getProfile(uid: uid);
+  return appUser.name;
+});
