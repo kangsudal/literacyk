@@ -12,6 +12,7 @@ import 'package:literacyk/view/signin_view/signin_view.dart';
 import 'package:literacyk/view/signup_view/signup_view.dart';
 import 'package:literacyk/view/splash_view/splash_view.dart';
 import 'package:literacyk/view/verify_email_view/verify_email_view.dart';
+import 'package:literacyk/view/write_view/write_view.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'router.g.dart';
@@ -108,6 +109,13 @@ GoRouter router(Ref ref) {
           return HomeView();
         },
         routes: [
+          GoRoute(
+            path: 'write',
+            name:RouteNames.write,
+            builder: (context,state){
+              return WriteView();
+            }
+          ),
           // GoRoute(
           //   path: 'changePassword',
           //   name:RouteNames.changePassword,

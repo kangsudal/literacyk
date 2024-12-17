@@ -9,9 +9,15 @@ part 'write_viewmodel.g.dart';
 class WriteViewmodel extends _$WriteViewmodel {
   late PostRepository postRepository;
   @override
-  FutureOr<Post?> build() {
+  FutureOr<Post?> build(String? postId) async {
     postRepository = ref.watch(postRepositoryProvider);
-    return null;
+
+    // postId가 있으면 수정모드
+    if(postId != null) {
+      // 기존 게시물 불러옴
+      return await postRepository.readPost(postId);
+    }
+    return null; // 새 게시물 작성 모드
   }
 
   Future<void> savePost({

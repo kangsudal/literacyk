@@ -32,7 +32,7 @@ class HomeView extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // context.goNamed(RouteNames.);
+          context.goNamed(RouteNames.write);
         },
         child: Icon(Icons.edit_note_outlined),
       ),
