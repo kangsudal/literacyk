@@ -104,10 +104,10 @@ GoRouter router(Ref ref) {
         },
       ),
       GoRoute(
-          path: '/write/:postId',
+          path: '/write',
           name: RouteNames.write,
           builder: (context, state) {
-            String? postId=state.pathParameters['postId'];
+            String? postId=state.uri.queryParameters['postId'];
             debugPrint('postId:$postId in router');
             return WriteView(postId: postId);
           }),

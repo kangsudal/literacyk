@@ -42,7 +42,7 @@ class ReadView extends ConsumerWidget {
                         onTap: () {
                           context.goNamed(
                             RouteNames.write,
-                            pathParameters: {'postId': post.id},
+                            queryParameters: {'postId': post.id},
                           );
                         },
                       ),
