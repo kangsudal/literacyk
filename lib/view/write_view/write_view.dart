@@ -19,6 +19,12 @@ class _WriteViewState extends ConsumerState<WriteView> {
   String? contents;
 
   @override
+  void initState() {
+    super.initState();
+    debugPrint('postId:${widget.postId} in write_view');
+  }
+
+  @override
   Widget build(BuildContext context) {
     final writeViewmodelState =
         ref.watch(writeViewmodelProvider(widget.postId));
@@ -48,7 +54,11 @@ class _WriteViewState extends ConsumerState<WriteView> {
                 form.save();
                 try {
                   await writeViewmodel.savePost(
-                      title: title!, contents: contents!, isEdit: isEdit);
+                    title: title!,
+                    contents: contents!,
+                    isEdit: isEdit,
+                    postId: widget.postId,
+                  );
                   context.goNamed(RouteNames.home);
                 } on CustomError catch (e) {
                   if (!context.mounted) return;

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:literacyk/config/route_names.dart';
+import 'package:literacyk/constants/firebase_constants.dart';
 import 'package:literacyk/models/custom_error.dart';
 import 'package:literacyk/view/read_view/read_viewmodel.dart';
 import 'package:literacyk/view/user_profile_view/user_profile_viewmodel.dart';
@@ -15,6 +16,7 @@ class ReadView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final readViewState = ref.watch(readViewmodelProvider(postId));
+    final readViewmodel = ref.read(readViewmodelProvider(postId).notifier);
     return readViewState.when(
       data: (post) {
         if (post == null) {
@@ -30,10 +32,29 @@ class ReadView extends ConsumerWidget {
           appBar: AppBar(
             title: Text(post.title),
             actions: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.more_horiz),
-              ),
+              if (fbAuth.currentUser!.uid == post.createdBy)
+                PopupMenuButton(
+                  icon: Icon(Icons.more_horiz),
+                  itemBuilder: (BuildContext context) {
+                    return [
+                      PopupMenuItem(
+                        child: Text('수정하기'),
+                        onTap: () {
+                          context.goNamed(
+                            RouteNames.write,
+                            pathParameters: {'postId': post.id},
+                          );
+                        },
+                      ),
+                      PopupMenuItem(
+                        child: Text('삭제하기'),
+                        onTap: () {
+                          readViewmodel.deletePost(post.id);
+                        },
+                      ),
+                    ];
+                  },
+                ),
             ],
           ),
           body: SingleChildScrollView(
@@ -54,8 +75,8 @@ class ReadView extends ConsumerWidget {
                         ),
                         Text(
                           name,
-                          style: TextStyle(
-                              decoration: TextDecoration.underline),
+                          style:
+                              TextStyle(decoration: TextDecoration.underline),
                         ),
                       ],
                     ),
@@ -63,8 +84,10 @@ class ReadView extends ConsumerWidget {
                   loading: () => CircularProgressIndicator(),
                   error: (_, __) => Text('작성자 정보를 불러올 수 없습니다.'),
                 ),
-                Text('작성일: ${DateFormat('yyyy-mm-dd hh:mm a').format(post.createdAt)}'),
-                Text('수정일: ${DateFormat('yyyy-mm-dd hh:mm a').format(post.updatedAt)}'),
+                Text(
+                    '작성일: ${DateFormat('yyyy-mm-dd hh:mm a').format(post.createdAt)}'),
+                Text(
+                    '수정일: ${DateFormat('yyyy-mm-dd hh:mm a').format(post.updatedAt)}'),
                 Divider(),
                 Text(post.contents),
               ],
