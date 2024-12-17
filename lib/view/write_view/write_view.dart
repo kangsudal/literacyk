@@ -29,21 +29,29 @@ class _WriteViewState extends ConsumerState<WriteView> {
       },
       child: Scaffold(
         appBar: AppBar(
+          leading: TextButton(
+            child: Text('Close'),
+            onPressed: () {
+              context.goNamed(RouteNames.home);
+            },
+          ),
+          leadingWidth: 70,
           title: Text(isEdit ? '글수정' : '글쓰기'),
           centerTitle: true,
           actions: [
             TextButton(
               onPressed: () async {
-                final writeViewmodel = ref.read(writeViewmodelProvider(widget.postId).notifier);
+                final writeViewmodel =
+                    ref.read(writeViewmodelProvider(widget.postId).notifier);
                 final form = formKey.currentState;
                 if (form == null || !form.validate()) return;
                 form.save();
-                try{
-                  await writeViewmodel.savePost(title: title!, contents: contents!, isEdit: isEdit);
+                try {
+                  await writeViewmodel.savePost(
+                      title: title!, contents: contents!, isEdit: isEdit);
                   context.goNamed(RouteNames.home);
-                }
-                on CustomError catch (e) {
-                  if(!context.mounted) return;
+                } on CustomError catch (e) {
+                  if (!context.mounted) return;
                   ScaffoldMessenger.of(context)
                       .showSnackBar(SnackBar(content: Text(e.message)));
                 }
@@ -70,11 +78,11 @@ class _WriteViewState extends ConsumerState<WriteView> {
                         validator: (title) {
                           return validateTitle(title);
                         },
-                        onSaved: (title){
+                        onSaved: (title) {
                           this.title = title;
                         },
                       ),
-                      SizedBox(height:30),
+                      SizedBox(height: 30),
                       TextFormField(
                         minLines: 1,
                         maxLines: 50,
@@ -87,7 +95,7 @@ class _WriteViewState extends ConsumerState<WriteView> {
                         validator: (contents) {
                           return validateContents(contents);
                         },
-                        onSaved: (contents){
+                        onSaved: (contents) {
                           this.contents = contents;
                         },
                       ),
