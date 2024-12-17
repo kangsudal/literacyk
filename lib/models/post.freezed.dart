@@ -219,8 +219,8 @@ class __$$PostImplCopyWithImpl<$Res>
 class _$PostImpl extends _Post with DiagnosticableTreeMixin {
   const _$PostImpl(
       {this.id = '',
-      this.title = '',
-      this.contents = '',
+      required this.title,
+      required this.contents,
       final List<String> imgUrls = const [],
       @TimestampConverter() required this.createdAt,
       this.createdBy = '',
@@ -238,10 +238,8 @@ class _$PostImpl extends _Post with DiagnosticableTreeMixin {
   @JsonKey()
   final String id;
   @override
-  @JsonKey()
   final String title;
   @override
-  @JsonKey()
   final String contents;
   final List<String> _imgUrls;
   @override
@@ -363,8 +361,8 @@ class _$PostImpl extends _Post with DiagnosticableTreeMixin {
 abstract class _Post extends Post {
   const factory _Post(
       {final String id,
-      final String title,
-      final String contents,
+      required final String title,
+      required final String contents,
       final List<String> imgUrls,
       @TimestampConverter() required final DateTime createdAt,
       final String createdBy,

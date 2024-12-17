@@ -9,11 +9,11 @@ part 'post.freezed.dart';
 
 @freezed
 class Post with _$Post {
-  const Post._(); // custom 메서드 (
+  const Post._(); // custom 메서드 작성하려면 필요함
   const factory Post({
     @Default('') String id,
-    @Default('') String title,
-    @Default('') String contents,
+    required String title,
+    required String contents,
     @Default([]) List<String> imgUrls,
     @TimestampConverter() required DateTime createdAt,
     @Default('') String createdBy,
