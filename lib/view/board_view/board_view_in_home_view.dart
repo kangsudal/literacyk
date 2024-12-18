@@ -80,11 +80,6 @@ class _BoardViewInHomeViewState extends ConsumerState<BoardViewInHomeView> {
                               post.title,
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-
-                            Text(
-                              post.createdBy,
-                              style: TextStyle(color: Colors.grey),
-                            ),
                           ],
                         ),
                         Text(
