@@ -43,20 +43,23 @@ class _BoardViewInHomeViewState extends ConsumerState<BoardViewInHomeView> {
             ),
           );
         }
-        return ListView.builder(
-          // padding: EdgeInsets.zero,
-          itemCount: posts.length,
-          itemBuilder: (context, index) {
-            Post post = posts[index];
-            return ListTile(
-              title: Text(post.title),
-              onTap: () {
-                context.goNamed(RouteNames.read, pathParameters: {
-                  'postId': post.id,
-                });
-              },
-            );
-          },
+        return RefreshIndicator(
+          onRefresh: () async => ref.refresh(boardViewModelProvider.future),
+          child: ListView.builder(
+            // padding: EdgeInsets.zero,
+            itemCount: posts.length,
+            itemBuilder: (context, index) {
+              Post post = posts[index];
+              return ListTile(
+                title: Text(post.title),
+                onTap: () {
+                  context.goNamed(RouteNames.read, pathParameters: {
+                    'postId': post.id,
+                  });
+                },
+              );
+            },
+          ),
         );
       },
       error: (error, _) {
