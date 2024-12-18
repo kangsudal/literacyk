@@ -15,7 +15,13 @@ class UserProfileViewInHomeView extends ConsumerWidget {
     final userProfileViewState = ref.watch(userProfileViewmodelProvider(uid));
     return ListTile(
       title: userProfileViewState.when(
-        data: (appUser) => Text('어서오세요 ${appUser.name}님'),
+        data: (appUser) => Row(
+          children: [
+            Text('안녕하세요 '),
+            Text(appUser.name,style: TextStyle(color: Theme.of(context).primaryColor,fontWeight: FontWeight.bold,fontSize: 20,),),
+            Text('님'),
+          ],
+        ),
         error: (error, _) {
           CustomError e = error as CustomError;
           return Text(e.message);
