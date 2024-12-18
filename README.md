@@ -2,19 +2,17 @@
 ## 프로젝트 소개
 Firebase와 Flutter를 이용한 인증 및 CRUD 게시판 기능을 구현한 앱
 
+## 구현 영상
+유튜브[https://www.youtube.com/watch?v=XGSmD9HlZjI]
+
 ## 기술 스택
 프레임워크(언어): Flutter(Dart)<br>
 백엔드 서비스: Firebase Authentication, Firestore
 <br><br>
 
 ## 주요 기능
-### 1. 사용자 인증
-- 로그인 상태
-- 로그아웃 상태
-- signup 기능
-- firestore에 데이터 저장 기능
-- 비밀번호 재설정 기능
-- verifyemail 
+### 1.사용자 인증
+   - 회원가입, 로그인/로그아웃, 이메일 인증, 비밀번호 재설정 <br><br>
 비밀번호 기반 로그인을 구현하기 위해 FirebaseAuth 패키지를 사용했다.<br>
 사용자가 이메일과 비밀번호를 입력하면 Firebase에서 사용자 인증을 처리하고, 성공하면 UserCredential 객체를 반환하는 구조이다.<br>
 `UserCredential`이란? User 객체와 OAuthCredential 객체, 인증 관련 메서드들을 포함하고있는 객체<br>
@@ -23,8 +21,36 @@ Firebase와 Flutter를 이용한 인증 및 CRUD 게시판 기능을 구현한 �
 
 
 ### 2.CRUD 게시판
+   - 글 작성, 조회, 수정, 삭제 (CRUD)
+   - Firestore 데이터베이스 사용
 
+### 3.상태 관리
+   - Riverpod을 이용한 MVVM 패턴 적용
 
+### 4.에러 처리
+   - CustomError 클래스를 활용한 예외 처리 및 사용자 친화적 메시지 제공
+
+## 설계 및 구조
+### MVVM 패턴
+- Model:
+   - `AppUser`: 사용자 데이터 모델
+   - `Post`: 게시글 모델
+- View:
+   - 로그인 화면
+   - 게시판 화면(HomeView)
+      - `UsefProfileViewInHomeView` : 사용자 상단 프로필
+      - `BoardViewInHomeView` : 게시물 목록
+   - 게시물 조회 화면
+   - 게시물 수정 화면
+- ViewModel:
+   - `SigninViewModel`: 로그인 관리  
+   - `SignupViewModel`: 회원가입 관리  
+   - `VerifyEmailViewModel`: 이메일 인증 상태 관리  
+   - `ResetPasswordViewModel`: 비밀번호 재설정 관리  
+   - `UserProfileViewModel`: 사용자 프로필 상태 관리  
+   - `BoardViewModel`: 게시판 기능 관리 (CRUD)
+   - `ReadViewModel`: 게시물 조회
+   - `WriteViewModel`: 게시물 수정
 
 ## 문제 해결 과정
 ### Bad state: Future already completed
@@ -95,15 +121,4 @@ HomeView는 하위 View를 조합하는 역할만 하도록 만들었다.
 확장성: 사용자 정보나 게시판 기능이 확장되더라도 HomeView는 수정할 필요가 없도록 했다.<br>
 <img width="450" alt="image" src="https://github.com/user-attachments/assets/274b77f1-c029-413e-aec5-9302d4f9bd3e" />
 
-### 설계 및 구조
-#### MVVM 패턴
-- Model: Firebase Authentication 및 Firestore 데이터
-- View: 로그인 화면, 게시판 화면
-- ViewModel:
-   - `BoardViewModel`: 게시판 기능 관리 (CRUD)  
-   - `SigninViewModel`: 로그인 관리  
-   - `SignupViewModel`: 회원가입 관리  
-   - `ResetPasswordViewModel`: 비밀번호 재설정 관리  
-   - `UserProfileViewModel`: 사용자 프로필 상태 관리  
-   - `VerifyEmailViewModel`: 이메일 인증 상태 관리  
 
