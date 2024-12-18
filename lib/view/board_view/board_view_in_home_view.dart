@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:literacyk/config/route_names.dart';
+import 'package:literacyk/constants/firebase_constants.dart';
 import 'package:literacyk/models/custom_error.dart';
 import 'package:literacyk/models/post.dart';
 import 'package:literacyk/view/board_view/board_view_model.dart';
@@ -19,6 +20,7 @@ class _BoardViewInHomeViewState extends ConsumerState<BoardViewInHomeView> {
   @override
   Widget build(BuildContext context) {
     final boardViewState = ref.watch(boardViewModelProvider);
+    final boardViewmodel = ref.watch(boardViewModelProvider.notifier);
     return boardViewState.when(
       data: (posts) {
         if (posts.isEmpty) {
@@ -57,7 +59,7 @@ class _BoardViewInHomeViewState extends ConsumerState<BoardViewInHomeView> {
                 Post post = posts[index];
                 return GestureDetector(
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                     margin: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -75,10 +77,40 @@ class _BoardViewInHomeViewState extends ConsumerState<BoardViewInHomeView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               post.title,
                               style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              width: 80,
+                              child: FutureBuilder<String>(
+                                future: boardViewmodel
+                                    .convertUidToName(post.createdBy),
+                                builder: (context, snapshot) {
+                                  final currentUid = fbAuth.currentUser!.uid;
+                                  bool isMe = post.createdBy == currentUid;
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return CircularProgressIndicator(); // 로딩 중 표시
+                                  } else if (snapshot.hasError) {
+                                    return Text('Error: ${snapshot.error}');
+                                  } else {
+                                    return FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        snapshot.data ?? 'Unknown',
+                                        style: TextStyle(
+                                          color: isMe
+                                              ? Theme.of(context).primaryColor
+                                              : Colors.grey,
+                                        ),
+                                      ),
+                                    ); // 작성자 이름 표시
+                                  }
+                                },
+                              ),
                             ),
                           ],
                         ),
