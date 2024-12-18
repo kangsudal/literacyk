@@ -4,6 +4,13 @@ Firebase와 Flutter를 이용한 인증 및 CRUD 게시판 기능을 구현한 �
 
 ## 구현 영상
 유튜브[https://www.youtube.com/watch?v=XGSmD9HlZjI]
+<br>
+
+|  사용자 인증  | 게시판 | 읽기/쓰기  |
+| ------------- | ------------- | ------------- |
+| <img src="https://github.com/user-attachments/assets/9520f1a9-ef5c-4385-8e1b-c3995dbadc83" width="200" height="500"/> |<img src="https://github.com/user-attachments/assets/1bb202e1-1a5a-49de-a9e0-4b445323d4c0" width="200" height="500"/> |<img src="https://github.com/user-attachments/assets/fbe48be7-c63e-442a-aa86-471f9e1b09d5" width="200" height="500"/> |
+
+
 
 ## 기술 스택
 프레임워크(언어): Flutter(Dart)<br>
