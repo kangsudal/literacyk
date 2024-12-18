@@ -128,4 +128,7 @@ HomeView는 하위 View를 조합하는 역할만 하도록 만들었다.
 확장성: 사용자 정보나 게시판 기능이 확장되더라도 HomeView는 수정할 필요가 없도록 했다.<br>
 <img width="450" alt="image" src="https://github.com/user-attachments/assets/274b77f1-c029-413e-aec5-9302d4f9bd3e" />
 
+#### 문제사항: Android 실행 문제  
+현재 **Groovy/Gradle 버전 문제**와 **Firebase 호환성** 이슈로 인해 Android 환경에서는 프로젝트가 실행되지 않고, iOS 환경에서만 실행 가능합니다.
+
 
